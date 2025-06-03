@@ -1,9 +1,3 @@
-config/.cache
-config/.local
-config/.ssh
-config/data
-config/workspace
-config/.bash_history
-config/.config/code-server/config.yaml
+config/*
 
 .env
