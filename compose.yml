@@ -1,0 +1,34 @@
+---
+x-podman:
+  in_pod: false
+
+services:
+  code-server:
+    build:
+      context: .
+      dockerfile: Containerfile
+      args:
+        USER_ID: '${UID:-1000}'
+        GROUP_ID: '${UID:-1000}'
+
+    container_name: code-server
+    user: "1000:1000"
+    userns_mode: "keep-id:uid=1000,gid=1000"
+    args:
+        USER_ID: '${UID:-1000}'
+        GROUP_ID: '${UID:-1000}'
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PROXY_DOMAIN=secomp.reverse-toad.ts.net #optional
+      - DEFAULT_WORKSPACE= #optional
+    env_file:
+      - .env
+    volumes:
+      - ./config:/config
+    ports:
+      - 8443:8443
+      - "5000-5100:5000-5100"
+    restart: unless-stopped
+
